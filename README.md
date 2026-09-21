@@ -2,6 +2,9 @@
 
 Interaktive Arbeitsversion auf Basis der vom Nutzer bereitgestellten Datei melaten_friedhof.png (800 × 888 Pixel).
 
+![Uploading image.png…]()
+
+
 ## Funktionen
 
 * Interaktive Karte mit 157 schematisch nachgezeichneten Flurflächen, Auswahl, Suche, Statusfilter, Zoom und Verschieben.
