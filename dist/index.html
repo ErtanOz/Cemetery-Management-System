@@ -39,8 +39,12 @@
         <button id="toggleInfra" aria-label="Infrastruktur anzeigen/ausblenden" title="Infrastruktur anzeigen/ausblenden"><svg viewBox="0 0 24 24" class="icon"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11Z"/></svg></button>
         <button id="addInfra" aria-label="Infrastrukturpunkt hinzufügen" title="Punkt setzen"><svg viewBox="0 0 24 24" class="icon"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21Z"/><path d="M12 7v5M9.5 9.5h5"/></svg></button>
       </div>
-      <div class="layers"><button data-layer="work" class="active">Arbeitskarte</button><button data-layer="vector">Vektorvorlage</button><button data-layer="raster">Originalbild</button></div>
-      <a class="link hud-download" href="melaten-vektor.svg" download>SVG herunterladen ↗</a>
+      <div class="zoomtools layers" role="toolbar" aria-label="Kartendarstellung">
+        <button data-layer="work" class="active" aria-label="Arbeitskarte anzeigen" title="Arbeitskarte"><svg viewBox="0 0 24 24" class="icon icon-fill" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1"></rect><rect x="13" y="4" width="7" height="7" rx="1"></rect><rect x="4" y="13" width="7" height="7" rx="1"></rect><rect x="13" y="13" width="7" height="7" rx="1"></rect></svg></button>
+        <button data-layer="vector" aria-label="Vektorvorlage anzeigen" title="Vektorvorlage"><svg viewBox="0 0 24 24" class="icon" aria-hidden="true"><path d="M4 18 10 6l4 8 3-5 3 9H4Z"></path></svg></button>
+        <button data-layer="raster" aria-label="Originalbild anzeigen" title="Originalbild"><svg viewBox="0 0 24 24" class="icon" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"></rect><circle cx="9" cy="10" r="1.6"></circle><path d="m5 17 5-5 4 4 3-3 3 3"></path></svg></button>
+      </div>
+      <a class="hud-download" href="melaten-vektor.svg" download aria-label="Vektorplan als SVG herunterladen" title="SVG herunterladen"><svg viewBox="0 0 24 24" class="icon" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 20h14"></path></svg></a>
     </div>
     <div id="themeLegend" class="themelegend hud-card themelegend-hud">Flurflächen nach der Planvorlage.</div>
     <div class="mapviewport" id="mapViewport"><svg id="map" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 888" role="group" aria-label="Interaktiver schematischer Melatenplan"><image id="baseImage" href="map-base.svg" x="0" y="0" width="800" height="888"/><g id="fieldLayer"></g><g id="routeLayer"></g><g id="labels"></g><g id="entrances" fill="#90306b"><path d="M215 827l8 8-8 8-8-8zM537 833l8 8-8 8-8-8zM775 453l8 8-8 8-8-8zM748 571l8 8-8 8-8-8zM8 534l8 8-8 8-8-8zM369 141l8 8-8 8-8-8z"/></g><g id="infraLayer"></g></svg><div class="mapcompass">↑<span>N</span></div></div>
