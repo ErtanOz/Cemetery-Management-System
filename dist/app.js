@@ -42,5 +42,40 @@ function download(name,content,type){const url=URL.createObjectURL(new Blob([con
 $('#backup').onclick=()=>{download('melaten-sicherung-'+new Date().toISOString().slice(0,10)+'.json',JSON.stringify(state,null,2),'application/json');toast('Sicherung heruntergeladen. Sie enthält alle lokalen Einträge.');};
 $('#import').onclick=()=>$('#importFile').click();$('#importFile').onchange=async e=>{const file=e.target.files[0];if(!file)return;try{if(file.size>20*1024*1024)throw Error();const data=JSON.parse(await file.text());if(!valid(data))throw Error();if(!confirm(`Sicherung mit ${data.graves.length} Gräbern und ${data.tasks.length} Aufgaben importieren? Die aktuellen lokalen Einträge werden ersetzt.`))return;if(persist(data)){render();toast('Sicherung importiert.');}}catch(err){toast('Ungültige Sicherung. Bitte eine passende Melaten-JSON-Datei bis 20 MB wählen.');}finally{e.target.value='';}};
 $('#exportCsv').onclick=()=>{const keys=['number','field','name','type','status','end','birth','death','burial','heritage','heritageSource','notes'];const cell=v=>'"'+String(v??'').replace(/^[=+@\-\t\r]/,"'$&").replace(/"/g,'""')+'"';const rows=[['Grabnummer','Flurfläche','Name','Grabart','Status','Nutzungsende','Geburt','Tod','Beisetzung','Schutzmerkmal','Merkmalsquelle','Notizen'],...state.graves.map(g=>keys.map(k=>g[k]))];download('melaten-grabregister.csv','\ufeff'+rows.map(r=>r.map(cell).join(';')).join('\r\n'),'text/csv;charset=utf-8');};
-$('#help').onclick=()=>openModal('Zum Arbeitsstand',`<div class="helptext"><p>Dieser Arbeitsplan basiert auf deiner hochgeladenen Melaten-Vorlage.</p><ul><li><strong>Vektorvorlage:</strong> Die Farbkonturen des Rasterplans wurden in SVG-Pfade umgewandelt. Der SVG enthält kein eingebettetes Rasterbild.</li><li><strong>Arbeitskarte:</strong> ${fields.length} Flächen wurden schematisch nachgezeichnet. Ihre Grenzen und Bezeichnungen sind vor fachlicher Verwendung zu prüfen. Rand-, Wege- und Teilflächen können unvollständig oder vereinfacht sein.</li><li><strong>Koordinaten:</strong> Lokale Bildkoordinaten, kein amtlicher Raumbezug. Abstände und Flächeninhalte sind nicht in Metern berechenbar.</li><li><strong>Verwaltung:</strong> Grabregister, Flächennotizen und Aufgaben liegen ausschließlich im lokalen Browser. Es gibt keine gemeinsame Datenbank, Benutzerverwaltung oder automatische Sicherung.</li><li><strong>Datensicherung:</strong> Exportiere regelmäßig JSON. Browserdaten löschen entfernt auch diese Einträge. Import ersetzt den aktuellen Datenstand.</li></ul><p><a href="melaten-vektor.svg" download>Vektorvorlage (SVG)</a> · <a href="melaten-flaechen.svg" download>Flurflächen (SVG)</a> · <a href="flaechen-lokal.csv" download>Flurflächen (CSV mit WKT)</a> · <a href="plan-data.json" download>Plan-Geometrien (JSON)</a></p></div>`);
+$('#help').onclick=()=>openModal('Hilfe & Quickstart',`<div class="helptext">
+<section><h3>Schnellstart</h3><ol>
+<li>Wähle im Plan eine Flurfläche an (anklicken oder über die Suche oben links) — rechts öffnet sich der Bereich „Flur &amp; Gräber" mit den Details.</li>
+<li>Trage bei Bedarf eine <strong>Kapazität</strong> für die Fläche ein, um das Einzelgrab-Raster zu aktivieren.</li>
+<li>Erfasse dein erstes Grab über „+ Grab erfassen" (Register) oder direkt im Raster durch Klick auf eine freie Nummer.</li>
+<li>Lege bei Bedarf Arbeitsaufträge für Pflege, Kontrolle oder Bestattungsvorbereitung an (Tab „Bauhof").</li>
+<li>Sichere regelmäßig deinen Datenstand über „↓ Sicherung" oben rechts — die Daten liegen sonst nur in diesem Browser.</li>
+</ol></section>
+<section><h3>Kartenbereich</h3><ul>
+<li><strong>Suche &amp; Filter:</strong> Fläche oder Grabnummer eingeben, zusätzlich nach Gräbern, offenen Aufgaben, Prüfstatus, Fristen oder Schutzmerkmalen filtern.</li>
+<li><strong>Themenkarten:</strong> oben in der Kopfzeile zwischen Kataster, Belegung, Fristenablauf und Denkmalschutz wechseln — färbt die Flächen entsprechend ein.</li>
+<li><strong>Ebenen:</strong> zwischen Arbeitskarte (schematisch), Vektorvorlage und Originalbild umschalten.</li>
+<li><strong>Zoom &amp; Navigation:</strong> Lupensymbole zum Vergrößern/Verkleinern, Rahmen-Symbol für die Vollansicht, „E" fokussiert die nördliche Erweiterung. Mit der Maus lässt sich die Karte ziehen und mit dem Mausrad zoomen.</li>
+<li><strong>Besucher-Wegefinder:</strong> Eingang und Ziel wählen, „Route berechnen" zeichnet einen Weg zwischen den Flurflächen hindurch (kein hinterlegtes Wegenetz — schematische Orientierung, keine barrierefreie Navigation).</li>
+<li><strong>Infrastruktur-Punkte:</strong> Tropfen-Symbol blendet gesetzte Punkte ein/aus, Stecknadel-Symbol aktiviert den Setzmodus — der nächste Klick auf die Karte legt einen Punkt an (Wasserstelle, Sitzbank, Abfalleimer, Sonstiges). Es handelt sich um selbst erfasste Standorte, keine amtliche Vermessung.</li>
+</ul></section>
+<section><h3>Register</h3><p>Gräber anlegen, bearbeiten oder löschen, nach Grabnummer/Name/Fläche suchen, nach Status und Zusatzmerkmalen filtern (überschrittenes Nutzungsende, Fristen in 90 Tagen, Schutzmerkmal, fehlendes Nutzungsende). Über „↓ CSV" lässt sich das gesamte Register exportieren.</p></section>
+<section><h3>Prominente &amp; Erinnerungsorte</h3><p>Kuratierte Liste besonderer Gräber und Gedenkorte. „Auf Karte zeigen" wählt die zugehörige Fläche aus und fokussiert sie im Plan.</p></section>
+<section><h3>Bauhof &amp; Arbeitsaufträge</h3><p>Aufträge mit Priorität, Fälligkeit, Arbeitsart, Zuständigkeit und Bearbeitungsstand (Offen/In Arbeit/Erledigt) anlegen. Filter oben schaltet zwischen offenen, erledigten und allen Aufträgen um.</p></section>
+<section><h3>Analyse</h3><p>Kennzahlen zu erfassten Gräbern, Statusverteilung, Fristen und Datenqualität — ausschließlich auf Basis deiner eigenen Einträge, keine Gesamtauslastung des Friedhofs. „Drucken / PDF" erzeugt eine druckbare Übersicht.</p></section>
+<section><h3>Formulare im Überblick</h3>
+<p><strong>Grab-Formular:</strong> Flurfläche*, Grabnummer* (muss je Fläche eindeutig sein), Name/Bezeichnung, Grabart, Status, Nutzungsende, Geburts-/Sterbe-/Beisetzungsdatum, Schutzmerkmal mit Quellenangabe, Notizen.</p>
+<p><strong>Aufgaben-Formular:</strong> Titel*, Flurfläche*, Priorität, Fällig am, Arbeitsart, zugehörige Grabstelle, Zuständigkeit, Bearbeitungsstand, Beschreibung.</p>
+<p><strong>Infrastruktur-Formular:</strong> Art (Wasserstelle/Sitzbank/Abfalleimer/Sonstiges), Bezeichnung, Notizen — der Standort wird durch den Klick auf die Karte festgelegt.</p>
+<p class="micro">Pflichtfelder sind mit * markiert. Alle Formulare validieren Datumsangaben (z. B. Geburt vor Tod, Tod vor Beisetzung) vor dem Speichern.</p>
+</section>
+<section><h3>Datengrundlage &amp; Grenzen</h3><ul>
+<li><strong>Vektorvorlage:</strong> Die Farbkonturen des Rasterplans wurden in SVG-Pfade umgewandelt. Der SVG enthält kein eingebettetes Rasterbild.</li>
+<li><strong>Arbeitskarte:</strong> ${fields.length} Flächen wurden schematisch nachgezeichnet. Ihre Grenzen und Bezeichnungen sind vor fachlicher Verwendung zu prüfen. Rand-, Wege- und Teilflächen können unvollständig oder vereinfacht sein.</li>
+<li><strong>Koordinaten:</strong> Lokale Bildkoordinaten, kein amtlicher Raumbezug. Abstände und Flächeninhalte sind nicht in Metern berechenbar.</li>
+<li><strong>Verwaltung:</strong> Grabregister, Flächennotizen, Aufgaben und Infrastrukturpunkte liegen ausschließlich im lokalen Browser. Es gibt keine gemeinsame Datenbank, Benutzerverwaltung oder automatische Sicherung.</li>
+<li><strong>Datensicherung:</strong> Exportiere regelmäßig JSON. Browserdaten löschen entfernt auch diese Einträge. Import ersetzt den aktuellen Datenstand vollständig.</li>
+</ul>
+<p><a href="melaten-vektor.svg" download>Vektorvorlage (SVG)</a> · <a href="melaten-flaechen.svg" download>Flurflächen (SVG)</a> · <a href="flaechen-lokal.csv" download>Flurflächen (CSV mit WKT)</a> · <a href="plan-data.json" download>Plan-Geometrien (JSON)</a></p>
+</section>
+</div>`);
 render();const initial=location.hash.slice(1);if(['karte','register','prominente','aufgaben','analyse'].includes(initial))view(initial);
