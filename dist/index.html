@@ -1,9 +1,82 @@
-<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#282d33"><title>DigiFried-Management-Melaten</title><link rel="stylesheet" href="style.css?v=1.2"></head><body>
-<aside class="rail"><a class="brand" href="#karte" aria-label="Melaten Start">m<span>·</span></a><div class="railword">MELATEN</div><nav><button class="nav active" data-view="karte"><span>▦</span>Karte</button><button class="nav" data-view="register"><span>▤</span>Register</button><button class="nav" data-view="prominente"><span>⌖</span>Prominente</button><button class="nav" data-view="aufgaben"><span>✓</span>Bauhof</button><button class="nav" data-view="analyse"><span>▥</span>Analyse</button></nav><div class="railbottom">KÖLN<br><small>DigiFried</small></div></aside>
-<div class="shell"><header><div><div class="eyebrow">DIGIFRIED MANAGEMENT · KÖLN</div><h1>Melaten<span class="tag">Arbeitsstand</span></h1></div><div class="headeractions"><button id="headerInterment" class="btn primary">+ Beisetzung</button><button id="backup" class="btn">↓ Datensicherung</button><button id="import" class="btn">↑ Importieren</button><input hidden id="importFile" type="file" accept="application/json,.json"><div class="avatar" title="Lokaler Arbeitsbereich">EO</div></div></header>
-<div class="info"><span class="infoicon">i</span><span><strong>Schematischer Plan.</strong> Flurflächen nach Vorlage, keine vermessenen Einzelgräber. Einträge werden nur in diesem Browser gespeichert.</span><button id="help">Hinweise</button></div>
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#1b4332"><title>DigiFried-Management-Melaten</title><link rel="stylesheet" href="style.css?v=1.3"></head><body>
+<header class="topbar">
+  <div class="brand"><span class="brandmark">m·</span><div><h1>Friedhof Melaten<span class="tag">GIS ENTERPRISE</span></h1><span class="eyebrow">DIGIFRIED MANAGEMENT · KÖLN</span></div></div>
+  <div class="themebar" aria-label="Kartenthema">
+    <button data-theme="plan" class="active"><span>▦</span>Kataster</button>
+    <button data-theme="occupancy"><span>◔</span>Belegung</button>
+    <button data-theme="deadlines"><span>⏱</span>Fristenablauf</button>
+    <button data-theme="heritage"><span>♜</span>Denkmalschutz</button>
+  </div>
+  <div class="headeractions">
+    <button id="headerInterment" class="btn primary">+ Beisetzung</button>
+    <button id="backup" class="btn outline">↓ Sicherung</button>
+    <button id="import" class="btn outline">↑ Importieren</button>
+    <input hidden id="importFile" type="file" accept="application/json,.json">
+    <button id="toggleDetail" class="btn outline iconbtn" aria-expanded="true" aria-controls="operations-panel" title="Bedienpanel umschalten">☰</button>
+  </div>
+</header>
+<div class="info" id="infoBar"><span class="infoicon">i</span><span id="infoText"><strong>Schematischer Plan.</strong> Flurflächen nach Vorlage, keine vermessenen Einzelgräber. Einträge werden nur in diesem Browser gespeichert.</span><button id="clearDemo" hidden>Demodaten entfernen</button><button id="help">Hinweise</button></div>
 <section class="stats"><div><span>Digitalisierte Flurflächen</span><strong id="fieldCount">157</strong><small>aus der Planvorlage</small></div><div><span>Erfasste Gräber</span><strong id="graveCount">0</strong><small id="graveSub">Noch keine Einträge</small></div><div><span>Offene Aufgaben</span><strong id="taskCount">0</strong><small id="taskSub">Keine Aufgaben angelegt</small></div><div class="statlast"><span>Datenstand</span><strong class="smallstat">Lokal</strong><small>Regelmäßig sichern</small></div></section>
-<main><section id="karte" class="view active"><div class="workspace"><div class="mapcard"><div class="mapheading"><div><h2>Friedhofsplan</h2><span>Fläche wählen · ziehen und zoomen</span></div><a class="link" href="melaten-vektor.svg" download>SVG herunterladen ↗</a></div><div class="themebar" aria-label="Kartenthema"><button data-theme="plan" class="active">Flächen</button><button data-theme="occupancy">Belegung</button><button data-theme="deadlines">Fristen</button><button data-theme="heritage">Schutzmerkmale</button><button id="toggleDetail" aria-expanded="true" aria-controls="detail">Details ausblenden</button></div><div id="themeLegend" class="themelegend">Flurflächen nach der Planvorlage.</div><div class="maptools"><label class="searchwrap"><span>⌕</span><input id="mapSearch" placeholder="Fläche oder Grab suchen …" aria-label="Fläche oder Grab suchen"></label><select id="mapFilter" aria-label="Flächenfilter"><option value="all">Alle Flächen</option><option value="graves">Mit Gräbern</option><option value="tasks">Offene Aufgaben</option><option value="check">Prüfung nötig</option><option value="expired">Nutzungsende überschritten</option><option value="soon">Nutzungsende in 90 Tagen</option><option value="heritage">Mit Schutzmerkmal</option></select></div><div class="mapviewport" id="mapViewport"><svg id="map" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 888" role="group" aria-label="Interaktiver schematischer Melatenplan"><image id="baseImage" href="map-base.svg" x="0" y="0" width="800" height="888"/><g id="fieldLayer"></g><g id="routeLayer"></g><g id="labels"></g><g id="entrances" fill="#90306b"><path d="M215 827l8 8-8 8-8-8zM537 833l8 8-8 8-8-8zM775 453l8 8-8 8-8-8zM748 571l8 8-8 8-8-8zM8 534l8 8-8 8-8-8zM369 141l8 8-8 8-8-8z"/></g></svg><div class="mapcompass">↑<span>N</span></div><div class="zoomtools"><button id="zoomIn" aria-label="Vergrößern">+</button><button id="zoomOut" aria-label="Verkleinern">−</button><button id="focusNorth" aria-label="Nördliche Erweiterung anzeigen">E</button><button id="zoomReset" aria-label="Gesamtplan anzeigen">⌂</button></div><div class="layers"><button data-layer="work" class="active">Arbeitskarte</button><button data-layer="vector">Vektorvorlage</button><button data-layer="raster">Originalbild</button></div><div id="searchCount" class="searchcount" hidden></div></div><div class="legend"><span><i class="swatch"></i>Flurfläche</span><span><i class="swatch selected"></i>Ausgewählt</span><span><i class="swatch task"></i>Offene Aufgabe</span><span><i class="entry">◆</i>Eingang</span><span class="coord">Bildkoordinaten · ohne Maßstab</span></div></div><aside class="detail" id="detail"></aside></div></section>
-<section id="register" class="view"><div class="sectionhead"><div><h2>Grabregister</h2><p>Gräber einer Flurfläche zuordnen und ihren Status pflegen.</p></div><div><button id="exportCsv" class="btn">↓ CSV exportieren</button><button id="newInterment" class="btn">+ Beisetzung erfassen</button><button id="newGrave" class="btn primary">+ Grab erfassen</button></div></div><div class="tablecard"><div class="maptools"><input id="graveSearch" placeholder="Grabnummer, Name oder Fläche suchen …" aria-label="Grabregister durchsuchen"><select id="graveFilter" aria-label="Grabstatus filtern"><option value="">Alle Status</option><option>Unbekannt</option><option>Frei</option><option>Belegt</option><option>Reserviert</option><option>Aufgelöst</option></select></div><div class="recordfilters"><label>Zusatzfilter <select id="recordFilter"><option value="">Alle Einträge</option><option value="expired">Nutzungsende überschritten</option><option value="soon">Nutzungsende in 90 Tagen</option><option value="heritage">Denkmal / Ehren- / Kriegsgrab</option><option value="unknown">Nutzungsende fehlt</option></select></label></div><div class="tablewrap"><table><thead><tr><th>Grabnummer</th><th>Flurfläche</th><th>Name / Bezeichnung</th><th>Grabart</th><th>Status</th><th>Nutzungsende</th><th>Aktion</th></tr></thead><tbody id="graveRows"></tbody></table></div><div id="graveEmpty" class="empty"><span>▤</span><h3>Das Register ist bereit.</h3><p>Die Vorlage enthält keine Belegungsdaten.<br>Erfasse dein erstes Grab und ordne es einer Fläche zu.</p><button class="btn primary" id="firstGrave">+ Erstes Grab erfassen</button></div></div></section>
-<section id="prominente" class="view"><div class="sectionhead"><div><h2>Prominente & Erinnerungsorte</h2><p>Kuratiertes Besucherregister mit direkter Orientierung auf dem schematischen Plan.</p></div></div><div id="prominentList" class="prominent-list"></div></section><section id="aufgaben" class="view"><div class="sectionhead"><div><h2>Bauhof & Arbeitsaufträge</h2><p>Kontrollen, Pflege, Bestattungsvorbereitung und Datenprüfung steuern.</p></div><button class="btn primary" id="newTask">+ Arbeitsauftrag</button></div><div class="maptools taskfilters"><button data-tfilter="open" class="active">Offen</button><button data-tfilter="done">Erledigt</button><button data-tfilter="all">Alle</button></div><div id="taskList"></div></section><section id="analyse" class="view"><div class="sectionhead"><div><h2>Bestand & Fristen</h2><p>Auswertung deiner erfassten Einträge, keine Gesamtauslastung des Friedhofs.</p></div><button id="printOverview" class="btn">Auswertung drucken / PDF</button></div><div id="analysisContent"></div></section></main>
-<footer><span>MELATEN · Digitaler Arbeitsplan</span><span>Vektorisierung nach deiner Vorlage · Version 1.2</span></footer></div><dialog id="modal"><div class="dialoghead"><h2 id="modalTitle"></h2><button id="closeModal" class="iconbtn" aria-label="Schließen">×</button></div><div id="modalBody"></div></dialog><div id="toast" role="status" hidden></div><script src="data.js"></script><script src="management.js"></script><script src="app.js"></script><script src="features.js?v=1.2"></script><script src="enterprise.js?v=1.0"></script><section id="printReport" hidden></section></body></html>
+
+<div class="app-body">
+  <div class="map-workspace" id="map-container">
+    <div class="map-hud-left">
+      <div class="hud-card gis-reference"><strong>Melaten-GIS Referenz</strong><span>50° 56′ 10″ N, 6° 55′ 11″ O · ca. 43,5 ha</span></div>
+      <div class="hud-card search-card">
+        <label class="searchwrap"><span>⌕</span><input id="mapSearch" placeholder="Fläche oder Grab suchen …" aria-label="Fläche oder Grab suchen"></label>
+        <select id="mapFilter" aria-label="Flächenfilter"><option value="all">Alle Flächen</option><option value="graves">Mit Gräbern</option><option value="tasks">Offene Aufgaben</option><option value="check">Prüfung nötig</option><option value="expired">Nutzungsende überschritten</option><option value="soon">Nutzungsende in 90 Tagen</option><option value="heritage">Mit Schutzmerkmal</option></select>
+        <div id="searchCount" class="searchcount" hidden></div>
+      </div>
+    </div>
+    <div class="map-controls-right">
+      <div class="zoomtools"><button id="zoomIn" aria-label="Vergrößern">+</button><button id="zoomOut" aria-label="Verkleinern">−</button><button id="focusNorth" aria-label="Nördliche Erweiterung anzeigen">E</button><button id="zoomReset" aria-label="Gesamtplan anzeigen">⌂</button></div>
+      <div class="layers"><button data-layer="work" class="active">Arbeitskarte</button><button data-layer="vector">Vektorvorlage</button><button data-layer="raster">Originalbild</button></div>
+      <a class="link hud-download" href="melaten-vektor.svg" download>SVG herunterladen ↗</a>
+    </div>
+    <div id="themeLegend" class="themelegend hud-card themelegend-hud">Flurflächen nach der Planvorlage.</div>
+    <div class="mapviewport" id="mapViewport"><svg id="map" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 888" role="group" aria-label="Interaktiver schematischer Melatenplan"><image id="baseImage" href="map-base.svg" x="0" y="0" width="800" height="888"/><g id="fieldLayer"></g><g id="routeLayer"></g><g id="labels"></g><g id="entrances" fill="#90306b"><path d="M215 827l8 8-8 8-8-8zM537 833l8 8-8 8-8-8zM775 453l8 8-8 8-8-8zM748 571l8 8-8 8-8-8zM8 534l8 8-8 8-8-8zM369 141l8 8-8 8-8-8z"/></g></svg><div class="mapcompass">↑<span>N</span></div></div>
+    <div class="legend"><span><i class="swatch"></i>Flurfläche</span><span><i class="swatch selected"></i>Ausgewählt</span><span><i class="swatch task"></i>Offene Aufgabe</span><span><i class="entry">◆</i>Eingang</span><span class="coord">Bildkoordinaten · ohne Maßstab</span></div>
+  </div>
+
+  <aside class="operations-panel" id="operations-panel">
+    <nav class="panel-tabs">
+      <button class="panel-tab active" data-view="karte"><span>▦</span>Flur & Gräber</button>
+      <button class="panel-tab" data-view="register"><span>▤</span>Register</button>
+      <button class="panel-tab" data-view="prominente"><span>⌖</span>Prominente</button>
+      <button class="panel-tab" data-view="aufgaben"><span>✓</span>Bauhof</button>
+      <button class="panel-tab" data-view="analyse"><span>▥</span>Analyse</button>
+    </nav>
+
+    <div id="karte" class="tab-content active"><div class="detail" id="detail"></div></div>
+
+    <div id="register" class="tab-content">
+      <div class="sectionhead"><div><h2>Grabregister</h2><p>Gräber einer Flurfläche zuordnen und ihren Status pflegen.</p></div><div><button id="exportCsv" class="btn">↓ CSV</button><button id="newInterment" class="btn">+ Beisetzung</button><button id="newGrave" class="btn primary">+ Grab</button></div></div>
+      <div class="tablecard"><div class="maptools"><input id="graveSearch" placeholder="Grabnummer, Name oder Fläche suchen …" aria-label="Grabregister durchsuchen"><select id="graveFilter" aria-label="Grabstatus filtern"><option value="">Alle Status</option><option>Unbekannt</option><option>Frei</option><option>Belegt</option><option>Reserviert</option><option>Aufgelöst</option></select></div><div class="recordfilters"><label>Zusatzfilter <select id="recordFilter"><option value="">Alle Einträge</option><option value="expired">Nutzungsende überschritten</option><option value="soon">Nutzungsende in 90 Tagen</option><option value="heritage">Denkmal / Ehren- / Kriegsgrab</option><option value="unknown">Nutzungsende fehlt</option></select></label></div><div class="tablewrap"><table><thead><tr><th>Grabnummer</th><th>Flurfläche</th><th>Name / Bezeichnung</th><th>Grabart</th><th>Status</th><th>Nutzungsende</th><th>Aktion</th></tr></thead><tbody id="graveRows"></tbody></table></div><div id="graveEmpty" class="empty"><span>▤</span><h3>Das Register ist bereit.</h3><p>Die Vorlage enthält keine Belegungsdaten.<br>Erfasse dein erstes Grab und ordne es einer Fläche zu.</p><button class="btn primary" id="firstGrave">+ Erstes Grab erfassen</button></div></div>
+    </div>
+
+    <div id="prominente" class="tab-content">
+      <div class="sectionhead"><div><h2>Prominente & Erinnerungsorte</h2><p>Kuratiertes Besucherregister mit direkter Orientierung auf dem Plan.</p></div></div>
+      <div id="prominentList" class="prominent-list"></div>
+    </div>
+
+    <div id="aufgaben" class="tab-content">
+      <div class="sectionhead"><div><h2>Bauhof & Arbeitsaufträge</h2><p>Kontrollen, Pflege, Bestattungsvorbereitung und Datenprüfung steuern.</p></div><button class="btn primary" id="newTask">+ Auftrag</button></div>
+      <div class="maptools taskfilters"><button data-tfilter="open" class="active">Offen</button><button data-tfilter="done">Erledigt</button><button data-tfilter="all">Alle</button></div>
+      <div id="taskList"></div>
+    </div>
+
+    <div id="analyse" class="tab-content">
+      <div class="sectionhead"><div><h2>Bestand & Fristen</h2><p>Auswertung deiner erfassten Einträge, keine Gesamtauslastung des Friedhofs.</p></div><button id="printOverview" class="btn">Drucken / PDF</button></div>
+      <div id="analysisContent"></div>
+    </div>
+
+    <div class="route-card" id="routeCardHost"></div>
+  </aside>
+</div>
+
+<footer><span>MELATEN · Digitaler Arbeitsplan</span><span>Vektorisierung nach deiner Vorlage · Version 1.3</span></footer>
+<dialog id="modal"><div class="dialoghead"><h2 id="modalTitle"></h2><button id="closeModal" class="iconbtn" aria-label="Schließen">×</button></div><div id="modalBody"></div></dialog>
+<div id="toast" role="status" hidden></div>
+<script src="data.js"></script><script src="demo-data.js"></script><script src="management.js"></script><script src="app.js"></script><script src="features.js?v=1.3"></script><script src="enterprise.js?v=1.1"></script>
+<section id="printReport" hidden></section>
+</body></html>
