@@ -111,6 +111,8 @@ body{margin:0;overflow:hidden;height:100vh;display:flex;flex-direction:column;ba
 .infra-point circle{fill:#fff;stroke:var(--gis-primary);stroke-width:1.5}
 .infra-point text{font-size:10px;text-anchor:middle;pointer-events:none}
 .zoomtools.infratools button.active{background:var(--gis-primary);color:#fff}
+.zoomtools button{display:flex;align-items:center;justify-content:center}
+.zoomtools .icon{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .mapviewport.infra-adding #map{cursor:crosshair}
 .map-tooltip{position:absolute;background:rgba(18,30,23,.94);color:#fff;padding:9px 12px;border-radius:7px;font-size:12px;line-height:1.6;pointer-events:none;z-index:30;max-width:220px;box-shadow:0 6px 18px rgba(0,0,0,.3)}
 .map-tooltip strong{color:#fff}
