@@ -89,7 +89,7 @@ body{margin:0;overflow:hidden;height:100vh;display:flex;flex-direction:column;ba
 .route-card .btn{width:100%}
 .route-card p{font-size:10.5px;color:var(--muted);margin:0}
 .themelegend-hud{position:absolute;top:16px;right:16px;z-index:10;max-width:260px;color:#4a5a52}
-.map-controls-right{position:absolute;bottom:20px;right:16px;display:flex;flex-direction:column;align-items:flex-end;gap:8px;z-index:10}
+.map-controls-right{position:absolute;bottom:60px;right:16px;display:flex;flex-direction:column;align-items:flex-end;gap:8px;z-index:10;max-height:calc(100% - 76px);overflow-y:auto}
 .map-controls-right .zoomtools,.map-controls-right .layers{position:static;box-shadow:0 4px 14px rgba(10,20,15,.18)}
 .map-controls-right .hud-download{background:#fff;padding:7px 11px;border-radius:6px;box-shadow:0 4px 14px rgba(10,20,15,.18)}
 .map-workspace .legend{position:absolute;left:0;right:0;bottom:0;background:rgba(255,255,255,.94);backdrop-filter:blur(6px);z-index:9;border-top:1px solid rgba(0,0,0,.08)}
