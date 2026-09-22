@@ -146,3 +146,94 @@ body{margin:0;overflow:hidden;height:100vh;display:flex;flex-direction:column;ba
 @media(max-width:900px){.app-body{flex-direction:column}.operations-panel{width:auto;border-left:0;border-top:1px solid var(--line);max-height:46vh}.operations-panel.collapsed{margin-right:0;max-height:0}.map-workspace{min-height:46vh}.map-hud-left{width:220px}.topbar{flex-wrap:wrap;height:auto;padding:10px 14px;gap:8px}.topbar .themebar{order:3;width:100%;overflow-x:auto}.stats{margin:10px}}
 @media(max-width:600px){.map-hud-left{width:190px;bottom:auto;max-height:calc(100% - 32px)}.themelegend-hud{display:none}.topbar h1{font-size:14px}.topbar .brandmark{display:none}.map-controls-right .hud-download,.map-controls-right .layers{display:none}}
 @media(max-width:400px){.map-hud-left{width:160px}.hud-card{padding:8px 9px;font-size:11.5px}.route-card select{padding:5px}}
+
+/* Keep every map action in one predictable edge rail. */
+.map-controls-right{
+  top:50%;
+  right:12px;
+  bottom:auto;
+  transform:translateY(-50%);
+  align-items:center;
+  gap:0;
+  max-height:calc(100% - 88px);
+  overflow:visible;
+}
+.map-controls-right .zoomtools{
+  position:static;
+  display:grid;
+  grid-template-columns:38px;
+  overflow:hidden;
+  background:#fff;
+  border-radius:0;
+  box-shadow:0 1px 0 #dce0e4;
+}
+.map-controls-right .zoomtools:first-child{border-radius:6px 6px 0 0}
+.map-controls-right .layers{
+  position:static;
+  left:auto;
+  bottom:auto;
+  transform:none;
+  display:grid;
+  grid-template-columns:38px;
+  max-width:none;
+  padding:0;
+  gap:0;
+  white-space:normal;
+}
+.map-controls-right .layers button{
+  width:38px;
+  height:37px;
+  padding:0;
+  border:0;
+  border-bottom:1px solid #e5e6e7;
+  border-radius:0;
+}
+.map-controls-right .layers button:last-child,
+.map-controls-right .zoomtools button:last-child{border-bottom:0}
+.map-controls-right .layers button.active{
+  background:var(--gis-primary);
+  color:#fff;
+}
+.map-controls-right .icon-fill{fill:currentColor;stroke:none}
+.map-controls-right .hud-download{
+  width:38px;
+  height:38px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:0;
+  color:#354858;
+  border:1px solid #dce0e4;
+  border-top:0;
+  border-radius:0 0 6px 6px;
+  text-decoration:none;
+}
+.map-controls-right .hud-download .icon{
+  width:17px;
+  height:17px;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:2;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+@media(max-height:650px){
+  .map-controls-right{gap:5px;max-height:calc(100% - 24px)}
+  .map-controls-right .zoomtools button,
+  .map-controls-right .layers button{height:32px}
+  .map-controls-right .hud-download{height:33px}
+}
+@media(max-width:600px){
+  .map-controls-right{
+    right:max(8px,env(safe-area-inset-right));
+    top:calc(50% - 2px);
+    max-height:calc(100% - 24px);
+  }
+  .map-controls-right .layers,
+  .map-controls-right .hud-download{display:grid}
+  .map-controls-right .hud-download{display:flex}
+  .map-controls-right .zoomtools{grid-template-columns:36px}
+  .map-controls-right .zoomtools button,
+  .map-controls-right .layers button,
+  .map-controls-right .hud-download{width:36px;height:32px}
+}
