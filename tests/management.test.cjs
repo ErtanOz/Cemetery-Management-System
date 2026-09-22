@@ -6,6 +6,8 @@ assert.equal(D.isDate('2026-02-30'),false);assert.equal(D.isDate('2024-02-29'),t
 assert.equal(D.validExtensions({graves:[grave()],tasks:[{due:'',done:false}]}),true);
 assert.equal(D.validExtensions({graves:[grave({birth:'2000-01-01',death:'1999-01-01'})],tasks:[]}),false);
 assert.equal(D.validExtensions({graves:[],tasks:[{due:'',done:false,phase:'Erledigt'}]}),false);
+assert.equal(D.validExtensions({graves:[],tasks:[{due:'',done:false,phase:'Offen',workType:'Pflege',graveId:'g1'}]}),true);
+assert.equal(D.validExtensions({graves:[],tasks:[{due:'',done:false,phase:'Offen',workType:'Fantasiearbeit'}]}),false);
 // Check full import validator against unchanged v1 backup and extended records.
 const code=readFileSync(path.join(root,'dist/app.js'),'utf8');sandbox.DFM=D;sandbox.ids=new Set(['94']);vm.runInContext(code.slice(code.indexOf('function valid('),code.indexOf('\ntry{')),sandbox);
 const old={schema:1,fields:{'94':{notes:'Old note',condition:'Ungeprüft'}},graves:[grave()],tasks:[{id:'t1',title:'Kontrolle',field:'94',done:false,priority:'Normal',due:'',notes:''}]};assert.equal(sandbox.valid(old),true);const extended=JSON.parse(JSON.stringify(old));Object.assign(extended.graves[0],{birth:'1950-01-01',death:'2026-09-01',burial:'2026-09-10',heritage:'Denkmal',heritageSource:'Bestandsliste'});Object.assign(extended.tasks[0],{phase:'In Arbeit',assignee:'Team 1'});assert.equal(sandbox.valid(extended),true);assert.equal(sandbox.valid(JSON.parse(JSON.stringify(extended))),true);extended.graves[0].heritage={bad:1};assert.equal(sandbox.valid(extended),false);
