@@ -30,11 +30,12 @@
     </div>
     <div class="map-controls-right">
       <div class="zoomtools"><button id="zoomIn" aria-label="Vergrößern">+</button><button id="zoomOut" aria-label="Verkleinern">−</button><button id="focusNorth" aria-label="Nördliche Erweiterung anzeigen">E</button><button id="zoomReset" aria-label="Gesamtplan anzeigen">⌂</button></div>
+      <div class="zoomtools infratools"><button id="toggleInfra" aria-label="Infrastruktur anzeigen/ausblenden" title="Infrastruktur anzeigen/ausblenden">◎</button><button id="addInfra" aria-label="Infrastrukturpunkt hinzufügen" title="Punkt setzen">＋</button></div>
       <div class="layers"><button data-layer="work" class="active">Arbeitskarte</button><button data-layer="vector">Vektorvorlage</button><button data-layer="raster">Originalbild</button></div>
       <a class="link hud-download" href="melaten-vektor.svg" download>SVG herunterladen ↗</a>
     </div>
     <div id="themeLegend" class="themelegend hud-card themelegend-hud">Flurflächen nach der Planvorlage.</div>
-    <div class="mapviewport" id="mapViewport"><svg id="map" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 888" role="group" aria-label="Interaktiver schematischer Melatenplan"><image id="baseImage" href="map-base.svg" x="0" y="0" width="800" height="888"/><g id="fieldLayer"></g><g id="routeLayer"></g><g id="labels"></g><g id="entrances" fill="#90306b"><path d="M215 827l8 8-8 8-8-8zM537 833l8 8-8 8-8-8zM775 453l8 8-8 8-8-8zM748 571l8 8-8 8-8-8zM8 534l8 8-8 8-8-8zM369 141l8 8-8 8-8-8z"/></g></svg><div class="mapcompass">↑<span>N</span></div></div>
+    <div class="mapviewport" id="mapViewport"><svg id="map" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 888" role="group" aria-label="Interaktiver schematischer Melatenplan"><image id="baseImage" href="map-base.svg" x="0" y="0" width="800" height="888"/><g id="fieldLayer"></g><g id="routeLayer"></g><g id="labels"></g><g id="entrances" fill="#90306b"><path d="M215 827l8 8-8 8-8-8zM537 833l8 8-8 8-8-8zM775 453l8 8-8 8-8-8zM748 571l8 8-8 8-8-8zM8 534l8 8-8 8-8-8zM369 141l8 8-8 8-8-8z"/></g><g id="infraLayer"></g></svg><div class="mapcompass">↑<span>N</span></div></div>
     <div class="legend"><span><i class="swatch"></i>Flurfläche</span><span><i class="swatch selected"></i>Ausgewählt</span><span><i class="swatch task"></i>Offene Aufgabe</span><span><i class="entry">◆</i>Eingang</span><span class="coord">Bildkoordinaten · ohne Maßstab</span></div>
   </div>
 
